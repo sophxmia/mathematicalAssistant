@@ -1,7 +1,5 @@
 package com.github.sophxmia.equation;
 
-import com.github.sophxmia.Main;
-
 import java.util.ArrayList;
 import java.util.List;
 

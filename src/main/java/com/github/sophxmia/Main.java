@@ -5,6 +5,7 @@ import com.github.sophxmia.equation.EquationDatabase;
 import com.github.sophxmia.equation.EquationSearch;
 import com.github.sophxmia.equation.EquationValidator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,6 +22,7 @@ public class Main {
 
 
         int setChoice = scanner.nextInt();
+        System.out.println();
         scanner.nextLine();
 
         switch (setChoice) {
@@ -40,7 +42,7 @@ public class Main {
     }
 
     private static void handleEquationSearch(Scanner scanner) {
-        System.out.println("Введіть корінь для пошуку:");
+        System.out.println("\nВведіть корінь для пошуку:");
 
         double searchRoot = scanner.nextDouble();
         scanner.nextLine();
@@ -52,17 +54,24 @@ public class Main {
         System.out.println("Введіть математичне рівняння:");
         String equationStr = scanner.nextLine();
 
-        if (EquationValidator.isValidParentheses(equationStr) && EquationValidator.isValidExpression(equationStr)){
+        if (EquationValidator.isValidParentheses(equationStr) && EquationValidator.isValidExpression(equationStr)) {
             Equation equation = new Equation(equationStr);
 
             System.out.println("Введене рівняння: " + equationStr);
             System.out.println("Рівняння коректне: " + equation.isValid());
 
-            if(equation.isValid()){
+            if (equation.isValid()) {
                 equation.solve();
-                System.out.println("Корені рівняння: ");
+
+                List<Double> roots = equation.getRoots();
+
+                if (!roots.isEmpty()) {
+                    System.out.println("Корені рівняння: ");
+                } else{
+                    System.out.println("Рівняння не має реальних коренів.");
+                }
             }
-        }else {
+        } else {
             System.out.println("Введене рівняння некоректне.");
         }
 
