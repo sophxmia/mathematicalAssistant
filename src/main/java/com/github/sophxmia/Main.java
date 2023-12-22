@@ -54,7 +54,7 @@ public class Main {
         System.out.println("Введіть математичне рівняння:");
         String equationStr = scanner.nextLine();
 
-        if (EquationValidator.isValidParentheses(equationStr) && EquationValidator.isValidExpression(equationStr)) {
+        try {
             Equation equation = new Equation(equationStr);
 
             System.out.println("Введене рівняння: " + equationStr);
@@ -66,14 +66,15 @@ public class Main {
                 List<Double> roots = equation.getRoots();
 
                 if (!roots.isEmpty()) {
-                    System.out.println("Корені рівняння: ");
-                } else{
+                    System.out.println("Корені рівняння: " + roots);
+                } else {
                     System.out.println("Рівняння не має реальних коренів.");
                 }
             }
-        } else {
-            System.out.println("Введене рівняння некоректне.");
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка при обробці числових значень у рівнянні.");
+        } catch (Exception e) {
+            System.out.println("Помилка: " + e.getMessage());
         }
-
     }
 }

@@ -17,29 +17,49 @@ public class Equation {
     }
 
     public void solve() {
+        String[] parts = equation.split("=");
+
+        String leftSide = parts[0].trim();
+        String rightSide = parts[1].trim();
+
         double A = 0.0;
         double B = 0.0;
-        double C = 0.0;
+        double C = -Double.parseDouble(rightSide); // При перенесенні термінів вправо, права сторона стає від'ємною
 
-        if (equation.contains("x")) {
-            String[] parts = equation.split("=");
+        String[] leftTerms = leftSide.split("(?=[-+])");
 
-            String leftSide = parts[0].trim();
-            String rightSide = parts[1].trim();
-
-            String[] coefficients = leftSide.split("\\*");
-            if (coefficients.length == 1) {
-                B = Double.parseDouble(coefficients[0].trim());
-            } else if (coefficients.length == 2) {
-                A = Double.parseDouble(coefficients[0].trim());
-                B = Double.parseDouble(coefficients[1].trim());
+        for (String term : leftTerms) {
+            term = term.trim();
+            if (term.endsWith("*x")) {
+                term = term.substring(0, term.length() - 2).trim();
+                if (term.isEmpty() || term.equals("+")) {
+                    A += 1.0;
+                } else if (term.equals("-")) {
+                    A -= 1.0;
+                } else {
+                    A += Double.parseDouble(term);
+                }
+            } else if (term.equals("x")) {
+                B += 1.0;
+            } else {
+                B += Double.parseDouble(term);
             }
-            C = Double.parseDouble(rightSide);
         }
+
+        // Перевірте, чи маємо квадратичне рівняння (A*x^2 + B*x + C)
         if (A != 0.0) {
             roots.addAll(EquationSolver.solveQuadraticEquation(A, B, C));
-        } else if (B != 0.0) {
-            roots.addAll(EquationSolver.solveLinearEquation(B, C));
+        } else {
+            // Якщо A = 0, то перевірте, чи маємо лінійне рівняння (B*x + C)
+            if (B != 0.0) {
+                roots.addAll(EquationSolver.solveLinearEquation(B, C));
+            } else {
+                // Якщо B = 0, то перевірте, чи маємо константне рівняння (C)
+                if (C == 0.0) {
+                    // Невизначене рівняння (0*x = 0)
+                    roots.add(Double.POSITIVE_INFINITY);
+                }
+            }
         }
     }
 
