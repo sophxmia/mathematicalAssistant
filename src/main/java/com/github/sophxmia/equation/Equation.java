@@ -24,27 +24,38 @@ public class Equation {
 
         double A = 0.0;
         double B = 0.0;
-        double C = -Double.parseDouble(rightSide); // При перенесенні термінів вправо, права сторона стає від'ємною
+        double C = 0.0;
 
         String[] leftTerms = leftSide.split("(?=[-+])");
 
         for (String term : leftTerms) {
             term = term.trim();
-            if (term.endsWith("*x")) {
-                term = term.substring(0, term.length() - 2).trim();
+            if (term.endsWith("*x*x")) {
+                term = term.substring(0, term.length() - 4).trim();
                 if (term.isEmpty() || term.equals("+")) {
-                    A += 1.0;
+                    A += 2.0;
                 } else if (term.equals("-")) {
-                    A -= 1.0;
+                    A -= 2.0;
                 } else {
                     A += Double.parseDouble(term);
+                }
+            } else if (term.endsWith("*x")) {
+                term = term.substring(0, term.length() - 2).trim();
+                if (term.isEmpty() || term.equals("+")) {
+                    B += 1.0;
+                } else if (term.equals("-")) {
+                    B -= 1.0;
+                } else {
+                    B += Double.parseDouble(term);
                 }
             } else if (term.equals("x")) {
                 B += 1.0;
             } else {
-                B += Double.parseDouble(term);
+                C += Double.parseDouble(term);
             }
         }
+
+        C -= Double.parseDouble(rightSide);
 
         // Перевірте, чи маємо квадратичне рівняння (A*x^2 + B*x + C)
         if (A != 0.0) {
@@ -62,6 +73,7 @@ public class Equation {
             }
         }
     }
+
 
     public String getEquation() {
         return equation;
