@@ -58,6 +58,9 @@ public class Equation {
                 if (C == 0.0) {
                     // Невизначене рівняння (0*x = 0)
                     roots.add(Double.POSITIVE_INFINITY);
+                } else {
+                    // Додаємо розв'язки для раціонального рівняння (C = 0)
+                    roots.addAll(EquationSolver.solveRationalEquation(A, B, C));
                 }
             }
         }
