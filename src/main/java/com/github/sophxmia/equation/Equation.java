@@ -22,46 +22,87 @@ public class Equation {
         String leftSide = parts[0].trim();
         String rightSide = parts[1].trim();
 
+        if (leftSide.contains("x")) {
+            double A = 0.0;
+            double B = 0.0;
+            double C = -Double.parseDouble(rightSide); // При перенесенні термінів вправо, права сторона стає від'ємною
 
-        double A = 0.0;
-        double B = 0.0;
-        double C = -Double.parseDouble(rightSide); // При перенесенні термінів вправо, права сторона стає від'ємною
-
-        String[] leftTerms = leftSide.split("(?=[-+])");
-
-        for (String term : leftTerms) {
-            term = term.trim();
-            if (term.endsWith("*x")) {
-                term = term.substring(0, term.length() - 2).trim();
-                if (term.isEmpty() || term.equals("+")) {
-                    A += 1.0;
-                } else if (term.equals("-")) {
-                    B -= 1.0;
+            String[] leftTerms = leftSide.split("(?=[-+])");
+            for (String term : leftTerms) {
+                term = term.trim();
+                if (term.endsWith("*x")) {
+                    term = term.substring(0, term.length() - 2).trim();
+                    if (term.isEmpty() || term.equals("+")) {
+                        A += 1.0;
+                    } else if (term.equals("-")) {
+                        B -= 1.0;
+                    } else {
+                        B += Double.parseDouble(term);
+                    }
+                } else if (term.equals("x")) {
+                    B += 1.0;
                 } else {
-                    B += Double.parseDouble(term);
+                    C += Double.parseDouble(term);
                 }
-            } else if (term.equals("x")) {
-                B += 1.0;
-            } else {
-                C += Double.parseDouble(term);
             }
-        }
 
-        // Перевірте, чи маємо квадратичне рівняння (A*x^2 + B*x + C)
-        if (A != 0.0) {
-            roots.addAll(EquationSolver.solveQuadraticEquation(A, B, C));
-        } else {
-            // Якщо A = 0, то перевірте, чи маємо лінійне рівняння (B*x + C)
-            if (B != 0.0) {
-                roots.addAll(EquationSolver.solveLinearEquation(B, C));
+            // Перевірте, чи маємо квадратичне рівняння (A*x^2 + B*x + C)
+            if (A != 0.0) {
+                roots.addAll(EquationSolver.solveQuadraticEquation(A, B, C));
             } else {
-                // Якщо B = 0, то перевірте, чи маємо константне рівняння (C)
-                if (C == 0.0) {
-                    // Невизначене рівняння (0*x = 0)
-                    roots.add(Double.POSITIVE_INFINITY);
+                // Якщо A = 0, то перевірте, чи маємо лінійне рівняння (B*x + C)
+                if (B != 0.0) {
+                    roots.addAll(EquationSolver.solveLinearEquation(B, C));
                 } else {
-                    // Додаємо розв'язки для раціонального рівняння (C = 0)
-                    roots.addAll(EquationSolver.solveRationalEquation(A, B, C));
+                    // Якщо B = 0, то перевірте, чи маємо константне рівняння (C)
+                    if (C == 0.0) {
+                        // Невизначене рівняння (0*x = 0)
+                        roots.add(Double.POSITIVE_INFINITY);
+                    } else {
+                        // Додаємо розв'язки для раціонального рівняння (C = 0)
+                        roots.addAll(EquationSolver.solveRationalEquation(A, B, C));
+                    }
+                }
+            }
+        } else if (rightSide.contains("x")) {
+            double A = 0.0;
+            double B = 0.0;
+            double C = -Double.parseDouble(leftSide); // При перенесенні термінів вправо, права сторона стає від'ємною
+
+            String[] rightTerms = rightSide.split("(?=[-+])");
+            for (String term : rightTerms) {
+                term = term.trim();
+                if (term.endsWith("*x")) {
+                    term = term.substring(0, term.length() - 2).trim();
+                    if (term.isEmpty() || term.equals("+")) {
+                        A += 1.0;
+                    } else if (term.equals("-")) {
+                        B -= 1.0;
+                    } else {
+                        B += Double.parseDouble(term);
+                    }
+                } else if (term.equals("x")) {
+                    B += 1.0;
+                } else {
+                    C += Double.parseDouble(term);
+                }
+            }
+            // Перевірте, чи маємо квадратичне рівняння (A*x^2 + B*x + C)
+            if (A != 0.0) {
+                roots.addAll(EquationSolver.solveQuadraticEquation(A, B, C));
+            } else {
+                // Якщо A = 0, то перевірте, чи маємо лінійне рівняння (B*x + C)
+                if (B != 0.0) {
+                    roots.addAll(EquationSolver.solveLinearEquation(B, C));
+                } else {
+                    // Якщо B = 0, то перевірте, чи маємо константне рівняння (C)
+                    if (C == 0.0) {
+                        // Невизначене рівняння (0*x = 0)
+                        roots.add(Double.POSITIVE_INFINITY);
+                    } else {
+                        // Додаємо розв'язки для раціонального рівняння (C = 0)
+                        roots.addAll(EquationSolver.solveRationalEquation(A, B, C));
+                    }
                 }
             }
         }
