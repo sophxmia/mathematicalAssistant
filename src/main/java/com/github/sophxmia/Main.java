@@ -74,10 +74,17 @@ public class Main {
                     System.out.println("Рівняння не має реальних коренів.");
                 }
             }
+            if (equation.isValid()) {
+                EquationDatabase.saveEquation(equation.getEquation());
+                System.out.println("Рівняння успішно збережено в базі даних.");
+            } else {
+                System.out.println("Рівняння не коректне, не буде збережено в базі даних.");
+            }
         } catch (NumberFormatException e) {
             System.out.println("Помилка при обробці числових значень у рівнянні.");
         } catch (Exception e) {
             System.out.println("Помилка: " + e.getMessage());
         }
+
     }
 }
