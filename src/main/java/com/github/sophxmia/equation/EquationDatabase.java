@@ -9,7 +9,7 @@ public class EquationDatabase {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/mathematicalAssistant";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "12345";
+    private static final String PASSWORD = "12345!";
 
     public static void saveEquation(String equation) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
