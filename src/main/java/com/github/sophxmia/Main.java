@@ -58,8 +58,11 @@ public class Main {
             Equation equation = new Equation(equationStr);
 
             System.out.println("Введене рівняння: " + equationStr);
-            System.out.println("Рівняння коректне: " + equation.isValid());
-
+            if(equation.isValid()) {
+                System.out.println("Рівняння коректне: " + equation.isValid());
+            }else{
+                System.out.println("Рівняння не коректне");
+            }
             if (equation.isValid()) {
                 equation.solve();
 

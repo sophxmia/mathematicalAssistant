@@ -7,7 +7,7 @@ public class EquationValidator {
             char currentChar = expression.charAt(i);
             char nextChar = expression.charAt(i + 1);
 
-            if (isMathOperator(currentChar) && isMathOperator(nextChar) && !isValidSubtractionCase(currentChar, nextChar) || isValidMultiplicationCase(currentChar, nextChar)) {
+            if (isMathOperator(currentChar) && isMathOperator(nextChar) && isValidMultiplicationCase(currentChar, nextChar)) {
                 return false;
             }
         }
@@ -15,13 +15,9 @@ public class EquationValidator {
     }
 
     private static boolean isValidMultiplicationCase(char currentChar, char nextChar) {
-        // Check if the multiplication operator is followed by a digit or an opening parenthesis
-        return currentChar == '*' && (Character.isDigit(nextChar) || nextChar == '(');
+        return currentChar == '*' && (Character.isDigit(nextChar) || nextChar == '-');
     }
 
-    private static boolean isValidSubtractionCase(char currentChar, char nextChar) {
-        return currentChar == '-' && (Character.isDigit(nextChar) || nextChar == '(');
-    }
 
     public static boolean isValidParentheses(String equation) {
         int openParenthesesCount = 0;

@@ -22,6 +22,7 @@ public class Equation {
         String leftSide = parts[0].trim();
         String rightSide = parts[1].trim();
 
+
         double A = 0.0;
         double B = 0.0;
         double C = -Double.parseDouble(rightSide); // При перенесенні термінів вправо, права сторона стає від'ємною

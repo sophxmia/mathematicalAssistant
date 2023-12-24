@@ -13,7 +13,6 @@ public class EquationSolver {
             roots.add(root);
         } else if (b == 0 && c == 0) {
             // Рівняння має безліч розв'язків у вигляді x, де x - будь-яке число.
-            // Ви можете використовувати Double.POSITIVE_INFINITY і Double.NEGATIVE_INFINITY для представлення безлічі розв'язків.
             roots.add(Double.POSITIVE_INFINITY);
             roots.add(Double.NEGATIVE_INFINITY);
         } else if (b != 0) {
