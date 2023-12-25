@@ -2,12 +2,20 @@ package com.github.sophxmia;
 
 import com.github.sophxmia.equation.Equation;
 import com.github.sophxmia.equation.EquationDatabase;
-import com.github.sophxmia.equation.EquationSearch;
 import com.github.sophxmia.equation.EquationValidator;
 
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Sofia Maliarenko
+ * Застосування повинне надавати такі можливості:
+ * 1. Вводити математичні рівняння, що містять числа,
+ * а також математичні операції +, -, *, / та круглі дужки, рівень вкладеності дужок – довільний.
+ * У всіх рівняннях невідома величина позначається англійською літерою x.
+ * 2. Перевіряти введене рівняння на коректність розміщення дужок.
+ * 3. Перевіряти коректність введеного виразу
+ */
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -47,7 +55,16 @@ public class Main {
         double searchRoot = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.println("Рівнянь з заданим коренем не знайдено.");
+        List<String> equations = EquationDatabase.findEquationsByRoot(searchRoot);
+
+        if (!equations.isEmpty()) {
+            System.out.println("Знайдено рівняння(я) з коренем " + searchRoot + ":");
+            for (String equation : equations) {
+                System.out.println(equation);
+            }
+        } else {
+            System.out.println("Рівнянь з заданим коренем не знайдено.");
+        }
     }
 
     private static void handleEquationInput(Scanner scanner) {
@@ -58,9 +75,9 @@ public class Main {
             Equation equation = new Equation(equationStr);
 
             System.out.println("Введене рівняння: " + equationStr);
-            if(equation.isValid()) {
+            if (equation.isValid()) {
                 System.out.println("Рівняння коректне: " + equation.isValid());
-            }else{
+            } else {
                 System.out.println("Рівняння не коректне");
             }
             if (equation.isValid()) {
@@ -70,6 +87,20 @@ public class Main {
 
                 if (!roots.isEmpty()) {
                     System.out.println("Корені рівняння: " + roots);
+                    System.out.println("Введіть корені рівняння (через пробіл):");
+                    String rootsInput = scanner.nextLine();
+                    String[] rootsArray = rootsInput.split(" ");
+
+                    for (String root : rootsArray) {
+                        double parsedRoot = Double.parseDouble(root);
+                        if (Math.abs(parsedRoot - roots.get(0)) < 1e-9) {
+                            // Якщо введений корінь збігається з реальним коренем, зберігаю його в БД
+                            EquationDatabase.saveRoot(equationStr, parsedRoot);
+                            System.out.println(parsedRoot + " є коренем рівняння і був збережений в БД.");
+                        } else {
+                            System.out.println(parsedRoot + " не є коренем рівняння.");
+                        }
+                    }
                 } else {
                     System.out.println("Рівняння не має реальних коренів.");
                 }
