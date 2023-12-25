@@ -57,6 +57,10 @@ public class Equation {
                 C += Double.parseDouble(term);
             }
         }
+        setAnEquationToSolve(A, B, C);
+    }
+
+    private void setAnEquationToSolve(double A, double B, double C) {
         // маємо квадратичне рівняння (A*x^2 + B*x + C)
         if (A != 0.0) {
             roots.addAll(EquationSolver.solveQuadraticEquation(A, B, C));

@@ -73,48 +73,55 @@ public class Main {
         try {
             Equation equation = new Equation(equationStr);
 
-            System.out.println("Введене рівняння: " + equationStr);
-            if (equation.isValid()) {
-                System.out.println("Рівняння коректне: " + equation.isValid());
-            } else {
-                System.out.println("Рівняння не коректне");
-            }
-            if (equation.isValid()) {
-                equation.solve();
-
-                List<Double> roots = equation.getRoots();
-
-                if (!roots.isEmpty()) {
-                    System.out.println("Корені рівняння: " + roots);
-                    System.out.println("Введіть корені рівняння (через пробіл):");
-                    String rootsInput = scanner.nextLine();
-                    String[] rootsArray = rootsInput.split(" ");
-
-                    for (String root : rootsArray) {
-                        double parsedRoot = Double.parseDouble(root);
-                        if (Math.abs(parsedRoot - roots.get(0)) < 1e-9) {
-                            // Якщо введений корінь збігається з реальним коренем, зберігаю його в БД
-                            EquationDatabase.saveRoot(equationStr, parsedRoot);
-                            System.out.println(parsedRoot + " є коренем рівняння і був збережений в БД.");
-                        } else {
-                            System.out.println(parsedRoot + " не є коренем рівняння.");
-                        }
-                    }
-                } else {
-                    System.out.println("Рівняння не має реальних коренів.");
-                }
-            }
-            if (equation.isValid()) {
-                EquationDatabase.saveEquation(equation.getEquation());
-                System.out.println("Рівняння успішно збережено в базі даних.");
-            } else {
-                System.out.println("Рівняння не коректне, не буде збережено в базі даних.");
-            }
+            handleAnEquationSaving(scanner, equationStr, equation);
         } catch (NumberFormatException e) {
             System.out.println("Помилка при обробці числових значень у рівнянні.");
         } catch (Exception e) {
             System.out.println("Помилка: " + e.getMessage());
         }
+    }
 
+    private static void handleAnEquationSaving(Scanner scanner, String equationStr, Equation equation) {
+        System.out.println("Введене рівняння: " + equationStr);
+        if (equation.isValid()) {
+            System.out.println("Рівняння коректне: " + equation.isValid());
+        } else {
+            System.out.println("Рівняння не коректне");
+        }
+        saveRootsOfEquation(scanner, equation, equationStr);
+        if (equation.isValid()) {
+            EquationDatabase.saveEquation(equation.getEquation());
+            System.out.println("Рівняння успішно збережено в базі даних.");
+        } else {
+            System.out.println("Рівняння не коректне, не буде збережено в базі даних.");
+        }
+    }
+
+    private static void saveRootsOfEquation(Scanner scanner, Equation equation, String equationStr) {
+        if (equation.isValid()) {
+            equation.solve();
+
+            List<Double> roots = equation.getRoots();
+
+            if (!roots.isEmpty()) {
+                System.out.println("Корені рівняння: " + roots);
+                System.out.println("Введіть корені рівняння (через пробіл):");
+                String rootsInput = scanner.nextLine();
+                String[] rootsArray = rootsInput.split(" ");
+
+                for (String root : rootsArray) {
+                    double parsedRoot = Double.parseDouble(root);
+                    if (Math.abs(parsedRoot - roots.get(0)) < 1e-9) {
+                        // Якщо введений корінь збігається з реальним коренем, зберігаю його в БД
+                        EquationDatabase.saveRoot(equationStr, parsedRoot);
+                        System.out.println(parsedRoot + " є коренем рівняння і був збережений в БД.");
+                    } else {
+                        System.out.println(parsedRoot + " не є коренем рівняння.");
+                    }
+                }
+            } else {
+                System.out.println("Рівняння не має реальних коренів.");
+            }
+        }
     }
 }
