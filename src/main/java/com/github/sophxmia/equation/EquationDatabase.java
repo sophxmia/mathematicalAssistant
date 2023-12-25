@@ -4,6 +4,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Sofia Maliarenko
+ * Sets database for the project.
+ * 1. Якщо рівняння є коректним, зберегти його у БД.
+ * 2. Надати можливість ввести корені рівняння, під час введення перевіряти,
+ * чи є задане число коренем, і якщо так – зберігати його в БД.
+ * 3. Реалізувати функції пошуку рівнянь у БД за їхніми коренями.
+ */
 public class EquationDatabase {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/mathematicalAssistant";
@@ -40,28 +48,6 @@ public class EquationDatabase {
             }
         } catch (SQLException e) {
             System.out.println("Помилка при пошуку рівнянь за коренем: " + e.getMessage());
-        }
-
-        return equations;
-    }
-
-    public static List<String> findEquationsWithExactRoot(double root) {
-        List<String> equations = new ArrayList<>();
-
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
-            String sql = "SELECT equation FROM equations WHERE root_count = 1 AND ? = ANY(roots)";
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDouble(1, root);
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        equations.add(resultSet.getString("equation"));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Помилка при пошуку рівнянь з рівно одним коренем: " + e.getMessage());
         }
 
         return equations;

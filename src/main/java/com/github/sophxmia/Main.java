@@ -2,7 +2,6 @@ package com.github.sophxmia;
 
 import com.github.sophxmia.equation.Equation;
 import com.github.sophxmia.equation.EquationDatabase;
-import com.github.sophxmia.equation.EquationValidator;
 
 import java.util.List;
 import java.util.Scanner;
