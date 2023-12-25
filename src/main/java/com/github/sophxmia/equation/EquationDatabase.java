@@ -55,7 +55,7 @@ public class EquationDatabase {
 
     public static void saveRoot(String equation, double root) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
-            String sql = "UPDATE equations SET roots = ARRAY_APPEND(roots, ?) WHERE equation = ?";
+            String sql = "UPDATE equations SET roots = JSON_ARRAY_APPEND(roots,'$', ?) WHERE equation = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setDouble(1, root);
