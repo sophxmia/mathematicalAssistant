@@ -3,6 +3,11 @@ package com.github.sophxmia.equation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Sofia Maliarenko
+ * Sets the equation, splits it both sides, decides the type of the equation, solves the equation
+ */
+
 public class Equation {
     private String equation;
     private List<Double> roots;
