@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * @author Sofia Maliarenko
+ * Solves the Rational, Linear, and Quadratic Equations
  */
 public class EquationSolver {
 
