@@ -2,9 +2,18 @@ package com.github.sophxmia;
 
 import com.github.sophxmia.equation.Equation;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Sofia Maliarenko
+ * Test cases for the project:
+ * - Число вважаємо коренем рівняння, якщо при підстановці цього числа замість всіх входжень x,
+ * різниця між значеннями лівої та правої частин рівняння не перевищує 10 -9
+ * - given correct equations
+ */
 public class EquationTest {
 
     @Test

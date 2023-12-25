@@ -3,6 +3,9 @@ package com.github.sophxmia.equation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Sofia Maliarenko
+ */
 public class EquationSolver {
 
     public static List<Double> solveRationalEquation(double a, double b, double c) {

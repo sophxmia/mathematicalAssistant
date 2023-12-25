@@ -1,5 +1,9 @@
 package com.github.sophxmia.equation;
 
+/**
+ * @author Sofia Maliarenko
+ * Check all the parentheses and math operators for their correct positioning
+ */
 public class EquationValidator {
 
     public static boolean isValidExpression(String expression) {
